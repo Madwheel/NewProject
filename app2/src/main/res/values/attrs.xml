@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="textSize" format="dimension"/>
+    <attr name="hightLightColor" format="color"/>
+    <attr name="normalColor" format="color"/>
+    <attr name="startOffset" format="integer"/>
+    <declare-styleable name="NumberRain">
+        <attr name="textSize"/>
+        <attr name="hightLightColor"/>
+        <attr name="normalColor"/>
+    </declare-styleable>
+    <declare-styleable name="NumberRainItem">
+        <attr name="textSize"/>
+        <attr name="hightLightColor"/>
+        <attr name="normalColor"/>
+        <attr name="startOffset"/>
+    </declare-styleable>
+</resources>

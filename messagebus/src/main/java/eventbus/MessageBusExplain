@@ -1,0 +1,45 @@
+消息总线使用说明：
+
+1、IEventManager接口，分为post、postSticky、event、eventOnly四个可实现方法
+    post        ：发送消息
+    postSticky  ：发送粘性消（APP启动时已经注册EventBus，意义不大）
+    event       ：接收消息（可以被所有人接收）
+    eventOnly   ：接收消息（使用该方法接收之后，其他人无法接收）
+
+2、EventManager类，实现了IEventManager接口，使用如下：
+    1.初始化    ：在BaseApplication的onCreate方法中获取EventManager的实例（实例方法中初始化了EventBus）
+    2.发送消息  ：通过EventManager的实例调用post或者postSticky方法（参数为带数据的实体）
+    3.接收消息  ：通过EventManager的实例调用event或者eventOnly方法（参数1为所需数据格式的空实体，参数2为响应消息接收事件的接口OnMessageEvent，通过event实现消息的传递）
+
+初始化 ： public class com.example.log.BaseApplication extends Application {
+            public static EventManager eventManager;
+            @Override
+            public void onCreate() {
+                eventManager = EventManager.getEventManager();
+                super.onCreate();
+            }
+          }
+
+发送消息： com.example.log.BaseApplication.eventManager.post(new MessageOne("单次消息1", 1));
+           com.example.log.BaseApplication.eventManager.postSticky(new MessageThree("粘性消息", 3));
+
+接收消息： com.example.log.BaseApplication.eventManager.eventOnly(new MessageOne(), new OnMessageEvent() {
+             @Override
+             public void event(Object event) {
+                if (event != null) {
+                    Toast.makeText(Main2Activity.this, "消息：" + ((MessageOne) event).getName(), Toast.LENGTH_SHORT).show();
+                }
+             }
+           });
+
+           com.example.log.BaseApplication.eventManager.event(new MessageTwo(), new OnMessageEvent() {
+                               @Override
+                               public void event(Object event) {
+                                   if (event != null) {
+                                       Toast.makeText(Main2Activity.this, "消息：" + ((MessageTwo) event).getName(), Toast.LENGTH_SHORT).show();
+                                   }
+                               }
+           });
+
+
+
